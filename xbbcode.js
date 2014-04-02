@@ -554,7 +554,7 @@ var XBBCODE = (function() {
     pbbRegExp = new RegExp("\\[(" + tagList.join("|") + ")([ =][^\\]]*?)?\\]([^\\[]*?)\\[/\\1\\]", "gi"); 
     pbbRegExp2 = new RegExp("\\[(" + tagsNoParseList.join("|") + ")([ =][^\\]]*?)?\\]([\\s\\S]*?)\\[/\\1\\]", "gi");    
 
-    // create the regex for escaping ['s that aren't apart of tags
+    // create the regex for escaping ['s that aren't a part of tags
     (function() {
         var closeTagList = [];
         for (var ii = 0; ii < tagList.length; ii++) {
@@ -585,8 +585,6 @@ var XBBCODE = (function() {
             ii,
             childTag,
             pInfo = tags[parentTag] || {};
-        
-        reTagNames.lastIndex = 0;
         
         if (!matchingTags) {
             tagContents = "";
