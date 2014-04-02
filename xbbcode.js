@@ -667,7 +667,7 @@ var XBBCODE = (function() {
     /*
         The star tag [*] is special in that it does not use a closing tag. Since this parser requires that tags to have a closing
         tag, we must pre-process the input and add in closing tags [/*] for the star tag.
-        We have a little levaridge in that we know the text we're processing wont contain the <> characters (they have been
+        We have a little leverage in that we know the text we're processing wont contain the <> characters (they have been
         changed into their HTML entity form to prevent XSS and code injection), so we can use those characters as markers to
         help us define boundaries and figure out where to place the [/*] tags.
     */
