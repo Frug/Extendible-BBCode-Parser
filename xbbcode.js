@@ -50,7 +50,8 @@ var XBBCODE = (function() {
         pbbRegExp,
         pbbRegExp2,
         openTags,
-        closeTags;
+        closeTags,
+        nonTags;
         
     /* -----------------------------------------------------------------------------
      * tags
@@ -565,7 +566,7 @@ var XBBCODE = (function() {
 
         openTags = new RegExp("(\\[)((?:" + tagList.join("|") + ")(?:[ =][^\\]]*?)?)(\\])", "gi"); 
         closeTags = new RegExp("(\\[)(" + closeTagList.join("|") + ")(\\])", "gi");
-        nonTags = new RegExp("(\\[)((?!/?" + this.tagList.join("(?:\\]|\\b|=)|/?") + "(?:\\]|\\b|=)).*?)(\\])");
+        nonTags = new RegExp("(\\[)((?!/?" + tagList.join("(?:\\]|\\b|=)|/?") + "(?:\\]|\\b|=)).*?)(\\])");
     })();
     
     // -----------------------------------------------------------------------------
