@@ -564,7 +564,8 @@ var XBBCODE = (function() {
         }
 
         openTags = new RegExp("(\\[)((?:" + tagList.join("|") + ")(?:[ =][^\\]]*?)?)(\\])", "gi"); 
-        closeTags = new RegExp("(\\[)(" + closeTagList.join("|") + ")(\\])", "gi"); 
+        closeTags = new RegExp("(\\[)(" + closeTagList.join("|") + ")(\\])", "gi");
+        nonTags = new RegExp("(\\[)((?!/?" + this.tagList.join("(?:\\]|\\b|=)|/?") + "(?:\\]|\\b|=)).*?)(\\])");
     })();
     
     // -----------------------------------------------------------------------------
@@ -715,20 +716,14 @@ var XBBCODE = (function() {
         var ret = {html: "", error: false},
             errQueue = [];
 
-        config.text = config.text.replace(/</g, "&lt;"); // escape HTML tag brackets
-        config.text = config.text.replace(/>/g, "&gt;"); // escape HTML tag brackets
+	// Escape HTML tags (if you want to)
+        config.text = config.text.replace(/</g, "&lt;");
+        config.text = config.text.replace(/>/g, "&gt;");
         
-        config.text = config.text.replace(openTags, function(matchStr, openB, contents, closeB) {
-            return "<" + contents + ">";
-        });
-        config.text = config.text.replace(closeTags, function(matchStr, openB, contents, closeB) {
-            return "<" + contents + ">";
-        });
-        
-        config.text = config.text.replace(/\[/g, "&#91;"); // escape ['s that aren't apart of tags
-        config.text = config.text.replace(/\]/g, "&#93;"); // escape ['s that aren't apart of tags
-        config.text = config.text.replace(/</g, "["); // escape ['s that aren't apart of tags
-        config.text = config.text.replace(/>/g, "]"); // escape ['s that aren't apart of tags
+        // Capture all bbcode tags that are not part of the tag list, and escape them
+	config.text = config.text.replace(nonTags, function(matchStr, openB, contents, closeB) {
+		return '&#91;' + contents + '&#93;';
+	});
 
         // process tags that don't have their content parsed
         while ( config.text !== (config.text = config.text.replace(pbbRegExp2, function(matchStr, tagName, tagParams, tagContents) {
